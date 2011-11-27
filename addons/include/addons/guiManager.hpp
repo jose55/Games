@@ -56,7 +56,7 @@ namespace SGUI {
             void setPosition( const sf::Vector2f & p);
 
             void setSize( float x, float y);
-            void setImage( sf::Image * image);
+            void setImage( sf::Texture*);
             void setShape( const sf::Color col);
 
             void addWidget( SGUI::Widget * w, const sf::Vector2f & p = sf::Vector2f(0, 0));
@@ -91,7 +91,7 @@ namespace SGUI {
             virtual void Update();
 
         private:
-            sf::String myString;
+            sf::Text myString;
             int myStatus;
             float myLength;
             sf::Clock myClock;

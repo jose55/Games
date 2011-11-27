@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "guiManager.hpp"
+#include <addons/guiManager.hpp>
 
 
 using namespace SGUI;
@@ -38,18 +38,20 @@ void GUI::setSize( float x, float y) {
     mySprite.SetSubRect( sf::IntRect(0, 0, x, y));
 }
 
-// SGUI::GUI::setImage( sf::Image * image)
-void GUI::setImage( sf::Image * image) {
-    mySprite.SetImage( *image );
+// SGUI::GUI::setImage( sf::Texture*)
+void GUI::setImage( sf::Texture * texture) {
+    mySprite.SetTexture( *texture );
     mySprite.SetPosition(myPos);
-    mySize = sf::Vector2f( image->GetWidth(), image->GetHeight());
+    mySize = sf::Vector2f( texture->GetWidth(), texture->GetHeight());
 }
 
 // SGUI::GUI::setShape( sf::Color col)
 void GUI::setShape( sf::Color col) {
     if ( !myShape ) {
         myShape = new sf::Shape;
-        *myShape = sf::Shape::Rectangle(myPos, myPos+mySize, sf::Color::White);
+
+	sf::FloatRect tmp(myPos.x, myPos.y, myPos.x+mySize.x, myPos.y+mySize.y);
+        *myShape = sf::Shape::Rectangle(tmp, sf::Color::White);
     }
     myShape->SetColor(col);
 }
@@ -98,11 +100,11 @@ Alert::Alert() {
 }
 
 void Alert::setText( std::string text) {
-    myString.SetText(text);
+    myString.SetString(text);
     myString.SetPosition(myPos+sf::Vector2f(2, 0));
-    myShape->SetPointPosition(1, myString.GetRect().Right-myString.GetRect().Left+4, 0);
-    myShape->SetPointPosition(2, myString.GetRect().Right-myString.GetRect().Left+4, myString.GetRect().Bottom);
-    myShape->SetPointPosition(3, 0, myString.GetRect().Bottom);
+    myShape->SetPointPosition(1, myString.GetRect().Width-myString.GetRect().Left+4, 0);
+    myShape->SetPointPosition(2, myString.GetRect().Width-myString.GetRect().Left+4, myString.GetRect().Height);
+    myShape->SetPointPosition(3, 0, myString.GetRect().Height);
 }
 
 void Alert::Display() {

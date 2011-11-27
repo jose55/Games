@@ -1,4 +1,4 @@
-#include "guiManager.hpp"
+#include <addons/guiManager.hpp>
 
 using namespace SGUI;
 using namespace std;
