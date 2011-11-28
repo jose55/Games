@@ -1,8 +1,10 @@
 #include <iostream>
 
-
 #include "editor.hpp"
-#include "addons/guiManager.hpp"
+
+#include <addons/gui/manager.hpp>
+#include <addons/gui/widgets.hpp>
+
 #include "game/stage.hpp"
 #include "game/platform.hpp"
 #include "game/enemy.hpp"

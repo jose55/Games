@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Entity.hpp"
+#include "entity.hpp"
 
 class Character;
 class AnimatedSprite;
