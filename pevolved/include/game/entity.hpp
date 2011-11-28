@@ -14,7 +14,7 @@ class Entity : public Physic, public sf::Drawable {
 
         const virtual sf::FloatRect getBB();
 
-        virtual void Render(sf::RenderTarget & target) const;
+        virtual void Render(sf::RenderTarget&, sf::Renderer&) const;
         virtual void setPos( const sf::Vector2f & pos);
         virtual void Move( const sf::Vector2f & dist);
         virtual int Update();

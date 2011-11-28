@@ -35,21 +35,21 @@ Game::Game( sf::RenderWindow * win) : Screen(win) {
         myEnts.push_back( *it);
 
     // Registering keys
-    registerKey( Key::Right );
-    registerKey( Key::Left );
-    registerKey( Key::Space );
-    registerKey( Key::H );
-    registerKey( Key::P );
-    registerKey( Key::N );
-    registerKey( Key::LControl );
-    registerKey( Key::Back );
+    registerKey( Keyboard::Right );
+    registerKey( Keyboard::Left );
+    registerKey( Keyboard::Space );
+    registerKey( Keyboard::H );
+    registerKey( Keyboard::P );
+    registerKey( Keyboard::N );
+    registerKey( Keyboard::LControl );
+    registerKey( Keyboard::Back );
 
     // Registering physic vars
     myBound = FloatRect(0, -100, 9999, 9999);
     myBoundShape.AddPoint(myBound.Left, myBound.Top, Color::Blue);
-    myBoundShape.AddPoint(myBound.Right, myBound.Top, Color::Blue);
-    myBoundShape.AddPoint(myBound.Right, myBound.Bottom, Color::Blue);
-    myBoundShape.AddPoint(myBound.Left, myBound.Bottom, Color::Blue);
+    myBoundShape.AddPoint(myBound.Width, myBound.Top, Color::Blue);
+    myBoundShape.AddPoint(myBound.Width, myBound.Height, Color::Blue);
+    myBoundShape.AddPoint(myBound.Left, myBound.Height, Color::Blue);
     myBoundShape.SetBlendMode( Blend::Add );
 
     myDb = Database::getDatabase();
@@ -60,8 +60,8 @@ Game::Game( sf::RenderWindow * win) : Screen(win) {
     // Camera
 
     // HUD
-    myLife.SetImage(*myDb->getImage("res/hud/life.png"));
-    myLifeBar.SetImage( *myDb->getImage("res/hud/lifebar.png"));
+    myLife.SetTexture(*myDb->getImage("res/hud/life.png"));
+    myLifeBar.SetTexture( *myDb->getImage("res/hud/lifebar.png"));
 
     myLife.SetPosition(12, 32);
     myLifeBar.SetPosition(12, 32);
@@ -70,7 +70,7 @@ Game::Game( sf::RenderWindow * win) : Screen(win) {
 
 
 void Game::Init() {
-    myView->SetFromRect( FloatRect(0, 0, 800, 600));
+    myView->SetViewport( FloatRect(0, 0, 800, 600));
 }
 
 Game::~Game() {
@@ -97,35 +97,35 @@ void Game::Update() {
     Vector2f vel = myChar->getVel();
     //if ( myMouseLeft ) cout << "Here:" << myMouse.x << "," << myMouse.y;
 
-    if ( myKeys[Key::Right].down )
+    if ( myKeys[Keyboard::W].down )
             myChar->moveRight();
-    else  if ( myKeys[Key::Left].down ) myChar->moveLeft();
+    else  if ( myKeys[Keyboard::Left].down ) myChar->moveLeft();
 
     else myChar->setVel( myChar->getVel().x/2.f, myChar->getVel().y );
 
-    if ( myKeys[Key::Space].pressed )
+    if ( myKeys[Keyboard::Space].pressed )
         myChar->jump();
 
-    if ( myKeys[Key::LControl].pressed ) {
+    if ( myKeys[Keyboard::LControl].pressed ) {
         Projectile * p = myChar->fire();
         if ( p ) myEnts.push_back(p);
     }
 
     // Debug Controls
-    if ( myKeys[Key::H].pressed ) myDb->debug = (myDb->debug+1)%2;
-    if ( myKeys[Key::P].pressed ) myPhysicPause = (myPhysicPause+1)%2;
+    if ( myKeys[Keyboard::H].pressed ) myDb->debug = (myDb->debug+1)%2;
+    if ( myKeys[Keyboard::P].pressed ) myPhysicPause = (myPhysicPause+1)%2;
 
     // Physic Engine
     if ( !myPhysicPause ) UpdatePhysicEngine();
-    else if ( myKeys[Key::N].pressed ) UpdatePhysicEngine();
+    else if ( myKeys[Keyboard::N].pressed ) UpdatePhysicEngine();
 
     // Camera Update
     myView->SetCenter( myChar->getPos ());
 
     // Camera Bounds
-    if ( myView->GetRect().Left < 0 ) myView->Move( -myView->GetRect().Left, 0);
+    if ( myView->GetViewport().Left < 0 ) myView->Move( -myView->GetViewport().Left, 0);
 
-    if ( myKeys[Key::Back].pressed ) {
+    if ( myKeys[Keyboard::Back].pressed ) {
         myNextScreen = ScreenMenu;
     }
 }
@@ -151,7 +151,7 @@ void Game::UpdatePhysicEngine() {
         //cout << "MyPos: " << pos.x << "," << pos.y << endl;
         e->myWall = Physic::wall_none;
 
-        if ( e->myGeo != Physic::geo_ground && pos.y < bound.Bottom && !(e->myProps&Physic::property_fly) ) {
+        if ( e->myGeo != Physic::geo_ground && pos.y < bound.Height && !(e->myProps&Physic::property_fly) ) {
             if ( vel.y >= 0.f && vel.y < 8.f) { // Freefalling
                 if ( vel.y < 1.f ) vel.y = 1.f;
                 vel.y *= 1.75;
@@ -171,13 +171,13 @@ void Game::UpdatePhysicEngine() {
             Physic * obj = *it2;
             FloatRect objBB = obj->getBB();
 
-            if ( !(pos.x+size.x <= objBB.Left || pos.x >= objBB.Right) ) {
-                if ( pos.y <= objBB.Top && bound.Bottom > objBB.Top ) bound.Bottom = objBB.Top;
-                if ( pos.y-size.y >= objBB.Bottom && bound.Top < objBB.Bottom ) bound.Top = objBB.Bottom;
+            if ( !(pos.x+size.x <= objBB.Left || pos.x >= objBB.Width) ) {
+                if ( pos.y <= objBB.Top && bound.Height > objBB.Top ) bound.Height = objBB.Top;
+                if ( pos.y-size.y >= objBB.Height && bound.Top < objBB.Height ) bound.Top = objBB.Height;
             }
-            if ( !(pos.y-size.y+vel.y >= objBB.Bottom || pos.y+vel.y <= objBB.Top ) ) {
-                if ( pos.x+size.x <= objBB.Left && bound.Right > objBB.Left ) bound.Right = objBB.Left;
-                if ( pos.x >= objBB.Right && bound.Left < objBB.Right ) bound.Left = objBB.Right;
+            if ( !(pos.y-size.y+vel.y >= objBB.Height || pos.y+vel.y <= objBB.Top ) ) {
+                if ( pos.x+size.x <= objBB.Left && bound.Width > objBB.Left ) bound.Width = objBB.Left;
+                if ( pos.x >= objBB.Width && bound.Left < objBB.Width ) bound.Left = objBB.Width;
             }
             ++it2;
         }
@@ -191,7 +191,7 @@ void Game::UpdatePhysicEngine() {
 
             if ( e == e2 || (e2->myProps&Physic::property_projectile) ) continue;
             FloatRect bb1= e->getBB(), bb2 =e2->getBB();
-            if ( bb1.Left > bb2.Right || bb1.Right < bb2.Left || bb1.Top > bb2.Bottom || bb1.Bottom < bb2.Top ) continue;
+            if ( bb1.Left > bb2.Width || bb1.Width < bb2.Left || bb1.Top > bb2.Height || bb1.Height < bb2.Top ) continue;
             // beyond that, entities collide
 
             if ( e->myOwner != e2->myOwner ) {
@@ -204,8 +204,8 @@ void Game::UpdatePhysicEngine() {
         // Overlimit
         // Lower Bound
         if ( !(e->myProps&Physic::property_projectile) ) {
-            if ( pos.y + vel.y >= bound.Bottom ) {
-                vel.y = bound.Bottom - pos.y;
+            if ( pos.y + vel.y >= bound.Height ) {
+                vel.y = bound.Height - pos.y;
                 e->myGeo = Physic::geo_ground;
             }
             else e->myGeo = Physic::geo_air;
@@ -214,9 +214,9 @@ void Game::UpdatePhysicEngine() {
             // Upper bound
             if ( pos.y-size.y + vel.y < bound.Top ) vel.y = (pos.y-size.y) - bound.Top;
 
-            // Right bound
-            if ( pos.x+size.x+vel.x >= bound.Right ) {
-                vel.x = bound.Right - (pos.x+size.x);
+            // Width bound
+            if ( pos.x+size.x+vel.x >= bound.Width ) {
+                vel.x = bound.Width - (pos.x+size.x);
                 e->myWall |= Physic::wall_right;
             }
 
@@ -232,14 +232,14 @@ void Game::UpdatePhysicEngine() {
 
         if ( it == myEnts.begin() ) {
             if ( myBound.Left != bound.Left ||
-                myBound.Right != bound.Right ||
+                myBound.Width != bound.Width ||
                 myBound.Top != bound.Top ||
-                myBound.Bottom != bound.Bottom) {
+                myBound.Height != bound.Height) {
                 myBound = bound;
                 myBoundShape.SetPointPosition(0, myBound.Left, myBound.Top);
-                myBoundShape.SetPointPosition(1, myBound.Right, myBound.Top);
-                myBoundShape.SetPointPosition(2, myBound.Right, myBound.Bottom);
-                myBoundShape.SetPointPosition(3, myBound.Left, myBound.Bottom);
+                myBoundShape.SetPointPosition(1, myBound.Width, myBound.Top);
+                myBoundShape.SetPointPosition(2, myBound.Width, myBound.Height);
+                myBoundShape.SetPointPosition(3, myBound.Left, myBound.Height);
             }
         }
 

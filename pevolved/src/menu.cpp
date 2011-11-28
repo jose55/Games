@@ -8,9 +8,9 @@ using namespace sf;
 
 Menu::Menu( sf::RenderWindow * win) : Screen(win) {
 
-    registerKey( Key::G );
-    registerKey( Key::E );
-    registerKey( Key::S );
+    registerKey( Keyboard::G );
+    registerKey( Keyboard::E );
+    registerKey( Keyboard::S );
 
     myDb = Database::getDatabase();
     createText();
@@ -22,9 +22,9 @@ void Menu::Display() {
 }
 
 void Menu::Update() {
-    if ( myKeys[Key::G].pressed ) myNextScreen = Screen::ScreenGame;
-    if ( myKeys[Key::E].pressed ) myNextScreen = Screen::ScreenEditor;
-    if ( myKeys[Key::S].pressed ) {
+    if ( myKeys[Keyboard::G].pressed ) myNextScreen = Screen::ScreenGame;
+    if ( myKeys[Keyboard::E].pressed ) myNextScreen = Screen::ScreenEditor;
+    if ( myKeys[Keyboard::S].pressed ) {
         myDb->setSmooth( !myDb->getSmooth() );
         createText();
     }
@@ -40,5 +40,5 @@ void Menu::createText() {
     myText += "\n Smooth: ";
     if ( myDb->getSmooth() == 1 ) myText += "On";
     else myText += "Off";
-    myTextMenu.SetText(myText);
+    myTextMenu.SetString(myText);
 }

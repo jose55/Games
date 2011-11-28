@@ -95,7 +95,7 @@ Editor::Editor( sf::RenderWindow * win) : Screen(win) {
 
     myEnemy = myDb->getEnemy("basic");
 
-    registerKey( sf::Key::Back );
+    registerKey( sf::Keyboard::Back );
 }
 
 Editor::~Editor() {
@@ -120,7 +120,7 @@ void Editor::Display() {
 }
 
 void Editor::Update() {
-    if ( myKeys[sf::Key::Back].pressed ) {
+    if ( myKeys[sf::Keyboard::Back].pressed ) {
         myStage->getArea(0)->Clear();
         myNextScreen = ScreenMenu;
     }
@@ -239,8 +239,8 @@ void Editor::Update() {
 
                 for( vector<Enemy*>::iterator it = area->myEnemies.begin(); it != area->myEnemies.end(); ++it) {
                     sf::FloatRect bb = (*it)->getBB();
-                    if ( myMouse.x < bb.Left || myMouse.x > bb.Right
-                        || myMouse.y < bb.Top || myMouse.y > bb.Bottom ) continue;
+                    if ( myMouse.x < bb.Left || myMouse.x > bb.Width
+                        || myMouse.y < bb.Top || myMouse.y > bb.Height ) continue;
 
                     delete (*it);
                     area->myEnemies.erase(it);

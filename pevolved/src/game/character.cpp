@@ -1,10 +1,10 @@
 //#include <iostream>
 
 
-#include "character.hpp"
-#include "database.hpp"
-#include "animatedSprite.hpp"
-#include "projectile.hpp"
+#include <game/character.hpp>
+#include <game/database.hpp>
+#include <game/animatedSprite.hpp>
+#include <game/projectile.hpp>
 
 
 //using std::cout;

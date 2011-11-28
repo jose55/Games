@@ -16,7 +16,7 @@ class Area : public sf::Drawable {
         std::vector<Platform*>myPlatforms;
         std::vector<Enemy*>myEnemies;
 
-        void Render( sf::RenderTarget & target) const;
+        void Render( sf::RenderTarget&, sf::Renderer&) const;
 
         const sf::Vector2f getSpawnPoint();
 

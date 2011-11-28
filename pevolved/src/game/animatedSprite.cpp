@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "animatedSprite.hpp"
+#include <game/animatedSprite.hpp>
 
 using namespace std;
 
@@ -15,12 +15,12 @@ AnimatedSprite::~AnimatedSprite() {
         mySequences[i].clear();
 }
 
-void AnimatedSprite::setResource( sf::Image * res) {
-    mySprite.SetImage(*res);
+void AnimatedSprite::setResource(sf::Texture * res) {
+    mySprite.SetTexture(*res);
 }
 
 
-void AnimatedSprite::Render( sf::RenderTarget& target) const {
+void AnimatedSprite::Render(sf::RenderTarget& target, sf::Renderer& renderer) const {
     target.Draw(mySprite);
 }
 
@@ -54,12 +54,12 @@ void AnimatedSprite::addFrame( const sf::IntRect rect, int sequence, int length)
 
 void AnimatedSprite::setCurrentFrame( int frame, int sequence ) {
     mySprite.SetSubRect( mySequences[sequence][frame].m_Rect );
-    mySprite.SetCenter( mySprite.GetSize().x/2, mySprite.GetSize().y);
+    mySprite.SetOrigin( mySprite.GetSize().x/2, mySprite.GetSize().y);
 }
 
 void AnimatedSprite::setCurrentFrame() {
     mySprite.SetSubRect( (*myCurrentFrame).m_Rect );
-    mySprite.SetCenter( mySprite.GetSize().x/2, mySprite.GetSize().y);
+    mySprite.SetOrigin( mySprite.GetSize().x/2, mySprite.GetSize().y);
 }
 
 void AnimatedSprite::setCurrentSequence( int sequence, int reset) {

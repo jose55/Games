@@ -11,7 +11,7 @@ class Database {
         static Database * getDatabase();
         void Init();
 
-        sf::Image * getImage( std::string path );
+        sf::Texture* getImage(std::string);
 
         int debug;
 
@@ -28,14 +28,14 @@ class Database {
         static Database * __instance;
 
         // Tables
-        std::map<std::string, sf::Image*>myImages;
+        std::map<std::string, sf::Texture*>myImages;
         std::map<std::string, Enemy*>myEnemies;
 
         // Switches
         int mySmooth;
 
         // Generic Resources
-        sf::Image myImageNull;
+        sf::Texture myImageNull;
 
 };
 

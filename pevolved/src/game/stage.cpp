@@ -1,10 +1,10 @@
 #include <fstream>
 #include <iostream>
 
-#include "stage.hpp"
-#include "platform.hpp"
-#include "enemy.hpp"
-#include "database.hpp"
+#include <game/stage.hpp>
+#include <game/platform.hpp>
+#include <game/enemy.hpp>
+#include <game/database.hpp>
 
 using namespace sf;
 using namespace std;
@@ -21,7 +21,7 @@ Area::Area() {
 
 Area::~Area() {}
 
-void Area::Render( sf::RenderTarget & target) const {
+void Area::Render(sf::RenderTarget& target, sf::Renderer& renderer) const {
     for( std::vector<Platform*>::const_iterator it = myPlatforms.begin(); it != myPlatforms.end(); ++it)
         target.Draw(**it);
 }

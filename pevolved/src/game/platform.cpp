@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "platform.hpp"
-#include "database.hpp"
+#include <game/platform.hpp>
+#include <game/database.hpp>
 
 
 using namespace sf;
@@ -13,7 +13,7 @@ Platform::Platform() {
     mySize = Vector2f(blockSize, blockSize);
     myPos  = Vector2f(0, 0);
 
-    myShape = Shape::Rectangle(myPos, mySize, Color::Red);
+    myShape = Shape::Rectangle(myPos.x, myPos.y, mySize.x, mySize.y, Color::Red);
 }
 
 Platform::Platform( Vector2f position, Vector2f size ) {
@@ -26,7 +26,7 @@ Platform::Platform( Vector2f position, Vector2f size ) {
     myPos = position;
     mySize = size;
 
-    myShape = Shape::Rectangle( myPos, myPos+mySize, Color::Red);
+    myShape = Shape::Rectangle( myPos.x, myPos.y, (myPos+mySize).x, (myPos+mySize).y, Color::Red);
 
 
 }
@@ -38,7 +38,7 @@ Platform::~Platform() {
     }
 }
 
-void Platform::Render( RenderTarget & target) const {
+void Platform::Render( sf::RenderTarget& target, sf::Renderer& renderer ) const {
     if ( myForm.size() > 0 ) {
         for( vector<Sprite*>::const_iterator it = myForm.begin(); it != myForm.end(); ++it)
             target.Draw(**it);
@@ -75,13 +75,13 @@ const sf::Vector2f Platform::getSizeEditor() {
 }
 
 void Platform::materialize() {
-    sf::Image * blockImg = Database::getDatabase()->getImage("res/world/block.png");
+    sf::Texture * blockImg = Database::getDatabase()->getImage("res/world/block.png");
     int size_x = (int)mySize.x/blockSize;
     int size_y = (int)mySize.y/blockSize;
     for( int i = 0; i < size_x; ++i)
         for(int j = 0; j < size_y; ++j) {
             Sprite * spr = new Sprite();
-            spr->SetImage(*blockImg);
+            spr->SetTexture(*blockImg);
             spr->SetPosition(myPos + Vector2f(i*blockSize, j*blockSize));
             myForm.push_back(spr);
         }

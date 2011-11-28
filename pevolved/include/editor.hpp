@@ -35,7 +35,7 @@ class Editor : public Screen {
         // Helper
         sf::Shape myPlatformHelper;
 
-        sf::String myStatus;
+        sf::Text myStatus;
         sf::Clock myStatusClock;
         float myStatusLength;
 

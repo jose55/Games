@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "character_rockman.hpp"
-#include "animatedSprite.hpp"
+#include <game/character_rockman.hpp>
+#include <game/animatedSprite.hpp>
 
 
 cRockman::cRockman() {}

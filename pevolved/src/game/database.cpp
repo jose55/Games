@@ -1,8 +1,8 @@
 #include <iostream>
 
 
-#include "database.hpp"
-#include "enemy.hpp"
+#include <game/database.hpp>
+#include <game/enemy.hpp>
 
 using namespace std;
 
@@ -41,11 +41,11 @@ Enemy * Database::getEnemy( std::string name ) {
 }
 
 
-sf::Image * Database::getImage( std::string path ) {
-    std::map<std::string, sf::Image*>::iterator it;
+sf::Texture * Database::getImage( std::string path ) {
+    std::map<std::string, sf::Texture*>::iterator it;
 
     if ( (it = myImages.find(path)) == myImages.end() ) {
-        sf::Image * img = new sf::Image();
+        sf::Texture * img = new sf::Texture();
         if ( !img->LoadFromFile(path) ) {
             delete img;
             img = &myImageNull;
@@ -63,6 +63,6 @@ sf::Image * Database::getImage( std::string path ) {
 int Database::getSmooth() { return mySmooth; }
 void Database::setSmooth(bool s) {
     mySmooth = s;
-    for( map<string, sf::Image*>::iterator it = myImages.begin(); it != myImages.end(); ++it)
+    for( map<string, sf::Texture*>::iterator it = myImages.begin(); it != myImages.end(); ++it)
         it->second->SetSmooth(s);
 }

@@ -1,7 +1,7 @@
 #ifndef __classProjectile__
 #define __classProjectile__
 
-#include "entity.hpp"
+#include <game/entity.hpp>
 
 class AnimatedSprite;
 

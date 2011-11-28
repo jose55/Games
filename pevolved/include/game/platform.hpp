@@ -12,7 +12,7 @@ class Platform : public Physic, public sf::Drawable {
         Platform( sf::Vector2f position, sf::Vector2f size );
         ~Platform();
 
-        void Render( sf::RenderTarget & target) const;
+        void Render( sf::RenderTarget&, sf::Renderer&) const;
 
         virtual void setSize( const sf::Vector2f & size);
         virtual void setPos( const sf::Vector2f & pos);

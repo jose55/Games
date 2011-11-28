@@ -14,9 +14,9 @@ class AnimatedSprite : public sf::Drawable {
     public:
         AnimatedSprite();
         virtual ~AnimatedSprite();
-        void setResource( sf::Image * res );
+        void setResource( sf::Texture * res );
 
-        void Render( sf::RenderTarget& target) const;
+        void Render( sf::RenderTarget&, sf::Renderer&) const;
         void Update();
 
         //void SetPosition( const sf::Vector2f pos);

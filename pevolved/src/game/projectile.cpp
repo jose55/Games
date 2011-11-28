@@ -1,6 +1,6 @@
-#include "projectile.hpp"
-#include "database.hpp"
-#include "animatedSprite.hpp"
+#include <game/projectile.hpp>
+#include <game/database.hpp>
+#include <game/animatedSprite.hpp>
 
 using namespace sf;
 

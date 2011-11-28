@@ -1,7 +1,8 @@
 #include <iostream>
-#include "enemy.hpp"
-#include "animatedSprite.hpp"
-#include "database.hpp"
+
+#include <game/enemy.hpp>
+#include <game/animatedSprite.hpp>
+#include <game/database.hpp>
 
 
 using namespace sf;

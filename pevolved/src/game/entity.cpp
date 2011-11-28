@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "entity.hpp"
-#include "animatedSprite.hpp"
-#include "database.hpp"
+#include <game/entity.hpp>
+#include <game/animatedSprite.hpp>
+#include <game/database.hpp>
 
 Entity::Entity() {
     mySprite = new AnimatedSprite();
@@ -32,7 +32,7 @@ int Entity::Update() {
     return myLife > 0;
 }
 
-void Entity::Render(sf::RenderTarget & target) const {
+void Entity::Render(sf::RenderTarget& target, sf::Renderer& renderer) const {
     target.Draw(*mySprite);
     if ( Database::getDatabase()->debug ) target.Draw(myBB);
 }

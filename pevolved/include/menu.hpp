@@ -14,7 +14,7 @@ class Menu : public Screen {
         void Update();
 
     private:
-        sf::String myTextMenu;
+        sf::Text myTextMenu;
         sf::Font myTextFont;
         Database * myDb;
 
