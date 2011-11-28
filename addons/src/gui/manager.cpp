@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <addons/guiManager.hpp>
-
+#include <addons/gui/manager.hpp>
+#include <addons/gui/widget.hpp>
 
 using namespace SGUI;
 using namespace std;
@@ -67,10 +67,10 @@ void GUI::addWidget( SGUI::Widget * widget, const sf::Vector2f & p) {
 Widget * GUI::getWidget(const sf::Vector2f &p) {
     for( std::vector<Widget*>::iterator it = myWidgets.begin(); it != myWidgets.end(); ++it) {
         Widget * w = *it;
-        if ( p.x >= w->myPos.x &&
-             p.x <= w->myPos.x + w->mySize.x &&
-             p.y >= w->myPos.y &&
-             p.y <= w->myPos.y + w->mySize.y) return w;
+        if ( p.x >= w->getPosition().x &&
+             p.x <= w->getPosition().x + w->getSize().x &&
+             p.y >= w->getPosition().y &&
+             p.y <= w->getPosition().y + w->getSize().y) return w;
     }
     return 0;
 }
