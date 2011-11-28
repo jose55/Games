@@ -77,7 +77,7 @@ Widget * GUI::getWidget(const sf::Vector2f &p) {
 
 
 // SGUI::GUI::Render( sf::RenderTarget & target) const;
-void GUI::Render( sf::RenderTarget& target) const {
+void GUI::Render( sf::RenderTarget& target, sf::Renderer& render) const {
     target.Draw(mySprite);
     if ( myShape ) target.Draw(*myShape);
     for( std::vector<Widget*>::const_iterator it = myWidgets.begin(); it != myWidgets.end(); ++it)
@@ -161,7 +161,7 @@ void Manager::Update( const sf::Vector2f mouse) {
     else myWidget = 0x00;
 }
 
-void Manager::Render( sf::RenderTarget & target) const {
+void Manager::Render( sf::RenderTarget& target, sf::Renderer& renderer) const {
     for( std::vector<GUI*>::const_iterator it = myGUIs.begin(); it != myGUIs.end(); ++it)
         target.Draw(**it);
 

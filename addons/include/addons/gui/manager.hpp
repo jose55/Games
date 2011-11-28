@@ -17,7 +17,6 @@
 #include <addons/gui/widget.hpp>
 //===========================================================
 namespace SGUI {
-    class Button;
     class GUI;
 
     class Manager : public sf::Drawable  {
@@ -25,7 +24,7 @@ namespace SGUI {
             Manager();
             ~Manager();
             void Update( const sf::Vector2f mouse = sf::Vector2f(0, 0));
-            void Render( sf::RenderTarget& target) const;
+            void Render( sf::RenderTarget&, sf::Renderer&) const;
 
             void addGUI( SGUI::GUI * g);
 
@@ -60,7 +59,7 @@ namespace SGUI {
             void addWidget( Widget * w, const sf::Vector2f & p = sf::Vector2f(0, 0));
             Widget * getWidget( const sf::Vector2f &p);
 
-            virtual void Render( sf::RenderTarget& target) const;
+            virtual void Render( sf::RenderTarget&, sf::Renderer&) const;
 
             const sf::Vector2f getPosition();
             const sf::Vector2f getSize();
