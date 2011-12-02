@@ -1,33 +1,40 @@
+#include <iostream>
 #include <string>
 
-#include "menu.hpp"
-
-#include "game/database.hpp"
+#include <menu.hpp>
+#include <game/database.hpp>
+#include <game.hpp>
+#include <editor.hpp>
 
 using namespace sf;
 
-Menu::Menu( sf::RenderWindow * win) : Screen(win) {
-
-    registerKey( Keyboard::G );
-    registerKey( Keyboard::E );
-    registerKey( Keyboard::S );
+Menu::Menu() {
 
     myDb = Database::getDatabase();
     createText();
+    Attach(myTextMenu);
 }
 
 
-void Menu::Display() {
-    Draw(&myTextMenu);
-}
-
-void Menu::Update() {
-    if ( myKeys[Keyboard::G].pressed ) myNextScreen = Screen::ScreenGame;
-    if ( myKeys[Keyboard::E].pressed ) myNextScreen = Screen::ScreenEditor;
-    if ( myKeys[Keyboard::S].pressed ) {
-        myDb->setSmooth( !myDb->getSmooth() );
-        createText();
-    }
+int Menu::Update() {
+	int exit = 0;
+	if ( myKey[Keyboard::G].pressed ) {
+		exit = 0;
+		Game * scr = new Game();
+		//AddScreen(scr);
+		
+    	}
+	if ( myKey[Keyboard::E].pressed ) {
+		exit = 1;
+		Editor * scr = new Editor();
+		//GetScreenList().push_back(scr);
+	}
+	if ( myKey[Keyboard::S].pressed ) {
+		myDb->setSmooth( !myDb->getSmooth() );
+		createText();
+	    }
+	if ( myKey[Keyboard::V].pressed ) exit = 1;
+	return (update_alive && !exit);
 }
 
 void Menu::createText() {

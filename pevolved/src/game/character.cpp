@@ -22,7 +22,9 @@ Character::Character() {
 
     myDb = Database::getDatabase();
 
-    mySprite->setResource(myDb->getImage("res/sprites/rockmanx.png"));
+    mySprite->setResource( myDb->getImage("res/sprites/rockmanx.png"));
+    //mySprite->setResource( myDb->getImage("res/world/block.png"));
+    return;
     mySprite->addFrame( IntRect(7, 62, 36, 95), animation_idle  );
 
     // Walk sequence

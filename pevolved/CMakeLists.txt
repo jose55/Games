@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 
+project(pevolved)
+
 include_directories(
 	include
-	${Addons_SOURCE_DIR}/include
+	../addons/include
+	${PROJECT_BINARY_DIR}
 )
+
 
 file(
 	GLOB_RECURSE
@@ -24,3 +28,7 @@ add_executable(
 	${incs}
 
 )
+
+
+target_link_libraries(pevolved addons)
+target_link_libraries(pevolved sfml-graphics sfml-window sfml-system)

@@ -13,7 +13,7 @@
 using namespace SGUI;
 using namespace std;
 
-Editor::Editor( sf::RenderWindow * win) : Screen(win) {
+Editor::Editor() {
     myDb = Database::getDatabase();
 
     myGUI = new Manager();
@@ -95,7 +95,8 @@ Editor::Editor( sf::RenderWindow * win) : Screen(win) {
 
     myEnemy = myDb->getEnemy("basic");
 
-    registerKey( sf::Keyboard::Back );
+    myMouseLeft = 0;
+    myMouseLeftDown = 0;
 }
 
 Editor::~Editor() {
@@ -108,7 +109,7 @@ Editor::~Editor() {
 
 }
 
-void Editor::Display() {
+/*void Editor::Display() {
     Area * area = myStage->getArea(0);
     Draw(area);
     for( vector<Enemy*>::const_iterator it = area->myEnemies.begin(); it != area->myEnemies.end();  ++it)
@@ -117,16 +118,17 @@ void Editor::Display() {
     Draw(myGUI);
 
     if ( myStatusClock.GetElapsedTime() < myStatusLength ) Draw(&myStatus);
-}
+}*/
 
-void Editor::Update() {
-    if ( myKeys[sf::Keyboard::Back].pressed ) {
+int Editor::Update() {
+    if ( myKey[sf::Keyboard::Back].pressed ) {
         myStage->getArea(0)->Clear();
-        myNextScreen = ScreenMenu;
+        //myNextScreen = ScreenMenu;
     }
+    sf::Vector2i myMouse(sf::Mouse::GetPosition());
     sf::Vector2i mouseCell((int)myMouse.x/32,(int)myMouse.y/32);
 
-    myGUI->Update( myMouse );
+    myGUI->Update( sf::Vector2f(myMouse.x, myMouse.y) );
 
 
     /*
@@ -258,4 +260,5 @@ void Editor::Update() {
 
 
     }
+    return update_alive;
 }

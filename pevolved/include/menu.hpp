@@ -1,17 +1,18 @@
 #ifndef __screenMenu__
 #define __screenMenu__
 
-#include "screenManager.hpp"
+#include <addons/engine/screen.hpp>
 
 class Database;
 
 class Menu : public Screen {
     public:
-        Menu( sf::RenderWindow * win);
+        Menu();
 
         //inherit from Screen
         void Display();
-        void Update();
+        int Update();
+	inline void GetEvent(sf::Event&) {}
 
     private:
         sf::Text myTextMenu;

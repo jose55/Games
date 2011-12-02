@@ -1,9 +1,9 @@
 #ifndef __screenGame__
-#define __screenGame__
+#define wscreenGame__
 
 #include <vector>
 
-#include "screenManager.hpp"
+#include <addons/engine/screen.hpp>
 
 class Area;
 class Stage;
@@ -15,11 +15,11 @@ class Enemy;
 
 class Game : public Screen {
     public:
-        Game( sf::RenderWindow * win);
+        Game();
         virtual ~Game();
-        void Update();
-        void Display();
-        void DisplayHUD();
+        int Update();
+        //void Display();
+        //void DisplayHUD();
         void Init();
 
     private:
@@ -40,6 +40,9 @@ class Game : public Screen {
         // HUD
         sf::Sprite myLifeBar;
         sf::Sprite myLife;
+
+	// Tmp
+	sf::View myView;
 
 };
 

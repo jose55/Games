@@ -1,7 +1,7 @@
 #ifndef __screenEditor__
 #define __screenEditor__
 
-#include "screenManager.hpp"
+#include <addons/engine/screen.hpp>
 
 namespace SGUI { class Manager; class GUI; class Alert; };
 class Database;
@@ -11,10 +11,10 @@ class Enemy;
 
 class Editor : public Screen {
     public:
-        Editor( sf::RenderWindow * win);
+        Editor();
         ~Editor();
-        void Display();
-        void Update();
+        int Update();
+	inline void GetEvent(sf::Event&) {}
 
     private:
         SGUI::Manager * myGUI;
@@ -41,6 +41,9 @@ class Editor : public Screen {
 
         // Buffers
         sf::Vector2i myCell;
+
+	/* tmp */
+	int myMouseLeft, myMouseLeftDown;
 };
 
 #endif

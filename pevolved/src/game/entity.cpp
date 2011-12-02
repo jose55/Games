@@ -7,7 +7,7 @@
 Entity::Entity() {
     mySprite = new AnimatedSprite();
     myBB.SetBlendMode( sf::Blend::Add );
-    myLife = 1.f;;
+    myLife = 1.f;
 }
 
 Entity::~Entity() {

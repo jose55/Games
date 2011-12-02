@@ -1,21 +1,21 @@
 #include <iostream>
 
-#include "game.hpp"
-#include "game/database.hpp"
-#include "game/physic.hpp"
-#include "game/entity.hpp"
-#include "game/stage.hpp"
-#include "game/platform.hpp"
-#include "game/character.hpp"
-#include "game/character_rockman.hpp"
-#include "game/enemy.hpp"
-#include "game/projectile.hpp"
+#include <game.hpp>
+#include <game/database.hpp>
+#include <game/physic.hpp>
+#include <game/entity.hpp>
+#include <game/stage.hpp>
+#include <game/platform.hpp>
+#include <game/character.hpp>
+#include <game/character_rockman.hpp>
+#include <game/enemy.hpp>
+#include <game/projectile.hpp>
 
 
 using namespace std;
 using namespace sf;
 
-Game::Game( sf::RenderWindow * win) : Screen(win) {
+Game::Game() {
     // Load stage
     myStage = new Stage();
     myStage->Load();
@@ -27,15 +27,15 @@ Game::Game( sf::RenderWindow * win) : Screen(win) {
 
     // Loading Character
     myChar = new cRockman();
-    myChar->setPos( myCurrentArea->getSpawnPoint() );
-    myEnts.push_back(myChar);
-
+    //myChar->setPos( myCurrentArea->getSpawnPoint() );
+    //myEnts.push_back(myChar);
+	return;
     // Loading Enemies
     for( std::vector<Enemy*>::iterator it = myCurrentArea->myEnemies.begin(); it != myCurrentArea->myEnemies.end(); ++it)
         myEnts.push_back( *it);
 
     // Registering keys
-    registerKey( Keyboard::Right );
+/*    registerKey( Keyboard::Right );
     registerKey( Keyboard::Left );
     registerKey( Keyboard::Space );
     registerKey( Keyboard::H );
@@ -43,6 +43,8 @@ Game::Game( sf::RenderWindow * win) : Screen(win) {
     registerKey( Keyboard::N );
     registerKey( Keyboard::LControl );
     registerKey( Keyboard::Back );
+*/
+
 
     // Registering physic vars
     myBound = FloatRect(0, -100, 9999, 9999);
@@ -70,7 +72,7 @@ Game::Game( sf::RenderWindow * win) : Screen(win) {
 
 
 void Game::Init() {
-    myView->SetViewport( FloatRect(0, 0, 800, 600));
+    myView.SetViewport( FloatRect(0, 0, 800, 600));
 }
 
 Game::~Game() {
@@ -90,44 +92,44 @@ Game::~Game() {
 
 }
 
-
-void Game::Update() {
+int Game::Update() {
     myChar->PreThink();
 
     Vector2f vel = myChar->getVel();
     //if ( myMouseLeft ) cout << "Here:" << myMouse.x << "," << myMouse.y;
 
-    if ( myKeys[Keyboard::W].down )
+    if ( myKey[Keyboard::W].down )
             myChar->moveRight();
-    else  if ( myKeys[Keyboard::Left].down ) myChar->moveLeft();
+    else  if ( myKey[Keyboard::Left].down ) myChar->moveLeft();
 
     else myChar->setVel( myChar->getVel().x/2.f, myChar->getVel().y );
 
-    if ( myKeys[Keyboard::Space].pressed )
+    if ( myKey[Keyboard::Space].pressed )
         myChar->jump();
 
-    if ( myKeys[Keyboard::LControl].pressed ) {
+    if ( myKey[Keyboard::LControl].pressed ) {
         Projectile * p = myChar->fire();
         if ( p ) myEnts.push_back(p);
     }
 
     // Debug Controls
-    if ( myKeys[Keyboard::H].pressed ) myDb->debug = (myDb->debug+1)%2;
-    if ( myKeys[Keyboard::P].pressed ) myPhysicPause = (myPhysicPause+1)%2;
+    if ( myKey[Keyboard::H].pressed ) myDb->debug = (myDb->debug+1)%2;
+    if ( myKey[Keyboard::P].pressed ) myPhysicPause = (myPhysicPause+1)%2;
 
     // Physic Engine
     if ( !myPhysicPause ) UpdatePhysicEngine();
-    else if ( myKeys[Keyboard::N].pressed ) UpdatePhysicEngine();
+    else if ( myKey[Keyboard::N].pressed ) UpdatePhysicEngine();
 
     // Camera Update
-    myView->SetCenter( myChar->getPos ());
+    myView.SetCenter( myChar->getPos ());
 
     // Camera Bounds
-    if ( myView->GetViewport().Left < 0 ) myView->Move( -myView->GetViewport().Left, 0);
+    if ( myView.GetViewport().Left < 0 ) myView.Move( -myView.GetViewport().Left, 0);
 
-    if ( myKeys[Keyboard::Back].pressed ) {
-        myNextScreen = ScreenMenu;
+    if ( myKey[Keyboard::Back].pressed ) {
     }
+
+    return update_alive;
 }
 
 void Game::UpdatePhysicEngine() {
@@ -256,7 +258,7 @@ void Game::UpdatePhysicEngine() {
 
 }
 
-void Game::Display() {
+/*void Game::Display() {
     if ( myCurrentArea ) Draw(myCurrentArea);
     for( std::vector<Entity*>::const_iterator it = myEnts.begin(); it != myEnts.end(); ++it)
         Draw(*it);
@@ -264,9 +266,6 @@ void Game::Display() {
     //Draw(myChar);
 
     if ( myDb->debug ) Draw(&myBoundShape);
-}
+}*/
 
-void Game::DisplayHUD() {
-    Draw(&myLifeBar);
-    Draw(&myLife);
-}
+

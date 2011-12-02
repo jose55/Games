@@ -1,8 +1,8 @@
 //== File Information =========================================================
 //= File: 	screen.cpp
 //= Author:	Salepate
-//= Version:	0.02
-//= Updated:	01/11/11 16:34:09
+//= Version:	0.03
+//= Updated:	30/11/11 11:23
 //=
 //== File Description =========================================================
 //= Screen Handler (help manipulate screens) - source code

@@ -42,9 +42,12 @@ Enemy * Database::getEnemy( std::string name ) {
 
 
 sf::Texture * Database::getImage( std::string path ) {
-    std::map<std::string, sf::Texture*>::iterator it;
+    sf::Texture * t = myImages[path];
+    sf::Texture * i = new sf::Texture();
+    i->LoadFromFile(path);
+    return i;
 
-    if ( (it = myImages.find(path)) == myImages.end() ) {
+    if ( !t ) {
         sf::Texture * img = new sf::Texture();
         if ( !img->LoadFromFile(path) ) {
             delete img;
@@ -52,11 +55,12 @@ sf::Texture * Database::getImage( std::string path ) {
         }
         else {
             img->SetSmooth(mySmooth);
-            myImages.insert( std::make_pair(path, img));
+            //myImages.insert( std::make_pair(path, img));
+	    return &myImageNull;
         }
         return img;
     }
-    return it->second;
+    return t;
 }
 
 
